@@ -1,0 +1,25 @@
+.products{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 40px;
+    width: 90%;
+    margin: auto;
+}
+
+.cards{
+   display: grid;
+   grid-template-columns: 4fr 1fr;
+}
+
+.cart{
+    background-color: rgba(128, 128, 128, 0.767);
+    position: sticky;
+    top: 0px;
+    height: 200px;
+}
+@media (max-width: 500px) { 
+    .products{
+        display: grid;
+        grid-template-columns: 1fr ;
+    }
+ }
