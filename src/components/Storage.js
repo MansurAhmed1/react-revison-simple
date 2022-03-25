@@ -21,15 +21,24 @@ localStorage.setItem("cart",JSON.stringify( object))
 }
 
 function getStore(){
- var getSorage=localStorage.getItem("cart")
- var parse=JSON.parse(getSorage)
- return parse
+
+
+
+ let object= {};
+
+ //get the shopping cart from local storage
+ const storedCart = localStorage.getItem('cart');
+ if(storedCart){
+    object= JSON.parse(storedCart);
+ 
+}
+return  object
 
 }
 
 
-function lala(){
 
-}
-export {storage,getStore,lala};
+
+
+export {storage,getStore};
 

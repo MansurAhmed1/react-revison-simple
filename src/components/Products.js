@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './Product.css'
 import Cart from './Cart';
 import  {getStore,storage} from './Storage';
+import Summary from './Summary';
 
 
 
@@ -18,34 +19,51 @@ const Products = () => {
 
 
     const[cart,setCart]=useState([])
-    //useeffect foe localstorage
+    // //useeffect foe localstorage
     useEffect(function(){
+
+
+//price and quantity not find in mealdb api.so i set artificially  price and convert idmeal to quantity.
+var count=100;
+for(let x=0; x<products.length; x++){
+    count++
+    
+    products[x].price=count;
+}
+
+
+
+
+
      
        var localStorage=getStore();
        var array=[];
 
        for(let key in localStorage){
+       
         var common=products.find(product=>product.strMeal=== key)
         if(common){
-            common.quantity=localStorage[key]
+            common.idMeal=localStorage[key]
             array.push(common)
+           
         }
        }
+    //    console.log(array)
+      
        setCart(array)
 
-
+      
 
 
     },[products])
   
 
-
+console.log(cart)
   
 
 
 
-
-
+   
 
    
     //handleclickFunction
@@ -57,62 +75,35 @@ const Products = () => {
         // array.push(meal)
         // setCart(array)
         //sohoje ek line a likha 
-       
      
+    //  setCart([...cart,meal])
         
 
-        const again=cart.find(cartProduct=>cartProduct.id === meal.id);
-        if(!again){
+        const exists=cart.find(cartProduct=>cartProduct.strMeal === meal.strMeal);
+        if(!exists){
+            // console.log(meal)
 
-            meal.quantity=1;
+            meal.idMeal=1;
             setCart([...cart,meal])
+            console.log(meal)
         }
-        else{
-
-
-           const rest=cart.filter(cartProduct=>cartProduct.id !==meal.id);
-            again.quantity=again.quantity+1;
-            setCart([...rest,again])
-        }
-
-
-
-
-
-
-
-
-
-
-       
-        
-
       
+        else{
+           
 
-        
-        
-   
-         
-        
-        
+           const rest=cart.filter(cartProduct=>cartProduct.strMeal !==meal.strMeal);
+           exists.idMeal= exists.idMeal+1;
+           console.log(meal)
+            setCart([...rest,exists])
+        }
+
         storage(meal.strMeal)
+        console.log(cart)
     }
     
     //price and quantity set in object
-    var count=100;
-    for(let x=0; x<products.length; x++){
-        count++
-        products[x].quantity=0;
-        products[x].price=count;
-    }
-console.log(cart)
-    var sum=0;
-    // var total=0;
-    for(let obj of cart){
-        sum=sum+obj.price;
-        // total=total+obj.quantity
-    }
-
+   
+   
     return (
         <div>
             <h1>Food</h1>
@@ -124,8 +115,9 @@ console.log(cart)
             }
            </div>
            <div className='cart'>
-               totalprice:{sum} <br />
-               {/* totalProduct={total} */}
+               {/* totalprice:{sum} <br />
+               totalProduct={total} */}
+               <Summary cart={cart}></Summary>
            </div>
            </div>
 
